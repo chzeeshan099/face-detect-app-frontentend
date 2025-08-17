@@ -1,12 +1,6 @@
-'use client'
-import React from 'react';
-import FaceDetect from '@/modules/face-detect/index';
-const Page = () => {
-  return (
-    <>
-      <FaceDetect />
-    </>
-  );
-};
+import { redirect } from 'next/navigation';
 
-export default Page;
+export default function Home() {
+    redirect('/face-detect');
+    // return null;
+}
