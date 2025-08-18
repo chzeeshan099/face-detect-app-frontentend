@@ -47,6 +47,7 @@ const Login = () => {
                 localStorage.setItem("user", JSON.stringify({
                     name: name,
                     email: response?.user?.email,
+                    _id: response?.user?._id,
                 }));
                 router.push("/face-detect");
             } else {

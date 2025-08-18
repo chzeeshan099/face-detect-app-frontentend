@@ -6,6 +6,7 @@ import { EmotionResult } from '@/lib/emotionTypes';
 import { getVideosByMood } from '@/lib/spotify';
 import { FileInput } from "rizzui";
 import { toast } from "react-toastify";
+import { addUserHistoryApi } from '@/apis/history/index';
 
 const WebcamCapture = dynamic(() => import('@/components/WebcamCapture/WebcamCapture.jsx'), { ssr: false });
 
@@ -17,27 +18,67 @@ const FaceDetect = () => {
     const [videoId, setVideoId] = useState<string | null>(null);
     const [saveLoading, setSaveLoading] = useState(false);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
-    // Save record to localStorage
-    const handleSaveRecord = () => {
+
+    const handleSaveRecord = async () => {
+        let file: File | null = null;
         if (!capturedImage || !videoId) return;
         setSaveLoading(true);
         const now = new Date();
-        const record = {
-            image: capturedImage,
-            date: now.toLocaleDateString(),
-            time: now.toLocaleTimeString(),
-            videoId,
-            mood,
-        };
-        let history: any[] = [];
-        try {
-            history = JSON.parse(localStorage.getItem('faceDetectHistory') || '[]') as any[];
-        } catch { }
-        history.unshift(record);
-        localStorage.setItem('faceDetectHistory', JSON.stringify(history));
+        const userString = localStorage.getItem('user');
+        const user_Data = userString ? JSON.parse(userString) : null;
+        console.log("Saving record with userID:", user_Data);
+        const user_ID= user_Data?._id || ''
+        // formData.append('imageUrl', capturedImage);
+        const time = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+        const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+
+        // Agar file upload karni ho to capturedImage ko file bana kar bhejein
+        // Agar capturedImage base64 hai to usko file me convert karein
+        if (capturedImage && capturedImage.startsWith('data:image')) {
+            const arr = capturedImage.split(',');
+            const match = arr[0].match(/:(.*?);/);
+            const mime = match ? match[1] : "image/png";
+            const bstr = atob(arr[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+             file = new File([u8arr], `capture_${Date.now()}.png`, { type: mime });
+        }
+        const formData ={
+            userId: user_ID,
+            imageUrl: capturedImage,
+            dateTime: time,
+            youtubeUrl: youtubeUrl,
+            file:file
+        }
+
+       const response = await addUserHistoryApi(formData);
+       console.log("Save Record Response:", response);
         setSaveLoading(false);
-        toast.success('Record saved to history!');
     };
+    // // Save record to localStorage
+    // const handleSaveRecord = () => {
+    //     if (!capturedImage || !videoId) return;
+    //     setSaveLoading(true);
+    //     const now = new Date();
+    //     const record = {
+    //         image: capturedImage,
+    //         date: now.toLocaleDateString(),
+    //         time: now.toLocaleTimeString(),
+    //         videoId,
+    //         mood,
+    //     };
+    //     let history: any[] = [];
+    //     try {
+    //         history = JSON.parse(localStorage.getItem('faceDetectHistory') || '[]') as any[];
+    //     } catch { }
+    //     history.unshift(record);
+    //     localStorage.setItem('faceDetectHistory', JSON.stringify(history));
+    //     setSaveLoading(false);
+    //     toast.success('Record saved to history!');
+    // };
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.hash.substring(1));

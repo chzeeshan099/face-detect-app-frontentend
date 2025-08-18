@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { getUserHistoryApi } from '@/apis/history/index';
 const History = () => {
     const [modalImg, setModalImg] = useState<string | null>(null);
     let history: any[] = [];
-    try {
-        history = JSON.parse(typeof window !== 'undefined' ? localStorage.getItem('faceDetectHistory') || '[]' : '[]') as any[];
-    } catch { }
+    // try {
+    //     history = JSON.parse(typeof window !== 'undefined' ? localStorage.getItem('faceDetectHistory') || '[]' : '[]') as any[];
+    // } catch { }
+    const getUserHistory = async () => {
+        try {
+            const userString = localStorage.getItem('user');
+            const user_Data = userString ? JSON.parse(userString) : null;
+            console.log("Saving record with userID:", user_Data);
+            const user_ID = user_Data?._id || ''
+            const response = await getUserHistoryApi(user_ID);
+            console.log("get User History Response:", response);
+        }
+        catch (error) {
+            console.log(error, 'eerroorr')
 
+        }
+    }
+    useEffect(() => {
+        getUserHistory();
+    }, []);
     return (
         <>
             <div className='flex flex-col items-center gap-4 h-[73vh] overflow-y-auto py-4 px-4 sm:px-10 no-scrollbar'>
