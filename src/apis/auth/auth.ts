@@ -1,7 +1,10 @@
+
 'use client';
 // Verify Email
-export async function verifyEmailApi(token:any) {
-    return fetch(`http://localhost:5001/api/verify/${token}`, {
+
+export async function verifyEmailApi(token: string) {
+    console.log("Verifying Email with Token11:", token);
+    return fetch(`http://localhost:5001/api/auth/verify?token=${token}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -18,7 +21,7 @@ export async function verifyEmailApi(token:any) {
 }
 
 // Forgot Password
-export async function forgotPasswordApi(payload:any) {
+export async function forgotPasswordApi(payload: any) {
     return fetch('http://localhost:5001/api/auth/forgot-password', {
         method: 'POST',
         headers: {
@@ -37,7 +40,7 @@ export async function forgotPasswordApi(payload:any) {
 }
 
 // Reset Password
-export async function resetPasswordAPi( payload:any) {
+export async function resetPasswordAPi(payload: any) {
     return fetch(`http://localhost:5001/api/auth/reset-password`, {
         method: 'POST',
         headers: {
@@ -56,7 +59,7 @@ export async function resetPasswordAPi( payload:any) {
 }
 // Auth API functions for signup and login
 
-export async function signupApi(payload:any) {
+export async function signupApi(payload: any) {
     return fetch('http://localhost:5001/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -76,7 +79,7 @@ export async function signupApi(payload:any) {
         });
 }
 
-export async function loginApi(payload:any) {
+export async function loginApi(payload: any) {
     return fetch('http://localhost:5001/api/auth/login', {
         method: 'POST',
         headers: {

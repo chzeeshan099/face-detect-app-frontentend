@@ -1,11 +1,12 @@
 import { Toaster } from 'react-hot-toast';
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import GlobalDrawer from '@/shared/drawer-views/container';
 import GlobalModal from '@/shared/modal-views/container';
 import { ThemeProvider } from '@/shared/theme-provider';
 import { siteConfig } from '@/config/site.config';
 import { inter, lexendDeca } from '@/app/fonts';
 import StoreProvider from "./StoreProvider"
+import ProtectedRoute from "./ProtectedRoute";
 import cn from '@/utils/class-names';
 import '@/app/globals.css';
 
@@ -35,7 +36,9 @@ export default async function RootLayout({
 
         <StoreProvider>
           <ThemeProvider>
-            {children}
+            <ProtectedRoute>
+              {children}
+            </ProtectedRoute>
             <Toaster />
             <ToastContainer />
             <GlobalDrawer />

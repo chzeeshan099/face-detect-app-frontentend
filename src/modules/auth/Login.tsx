@@ -16,6 +16,12 @@ interface loginApiResponse {
     message: string;
     token: string;
     isSuccess: boolean;
+    user: {
+        email: string;
+        firstName?: string;
+        lastName?: string;
+        _id: string;
+    };
 }
 
 const Login = () => {
@@ -32,11 +38,16 @@ const Login = () => {
         console.log("Login Data:", data);
         try {
             const response = await loginApi(data) as loginApiResponse;
-            console.log("Signup Response:", response);
+            console.log("login Response:", response);
             if (response?.isSuccess) {
                 toast.success(response?.message || "Login  successful!");
                 reset();
                 localStorage.setItem("token", response?.token);
+                const name = `${response?.user?.firstName ?? ""} ${response?.user?.lastName ?? ""}`.trim();
+                localStorage.setItem("user", JSON.stringify({
+                    name: name,
+                    email: response?.user?.email,
+                }));
                 router.push("/face-detect");
             } else {
                 toast.error(response?.message || "Login failed!");
@@ -44,7 +55,6 @@ const Login = () => {
         } catch (error) {
             toast.error("Signup failed! Please try again.");
         }
-        reset();
     };
 
     const handleSignup = () => {
