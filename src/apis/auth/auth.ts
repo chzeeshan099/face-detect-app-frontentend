@@ -1,7 +1,7 @@
 'use client';
 // Verify Email
 export async function verifyEmailApi(token:any) {
-    return fetch(`http://localhost:5000/api/verify/${token}`, {
+    return fetch(`http://localhost:5001/api/verify/${token}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export async function verifyEmailApi(token:any) {
 
 // Forgot Password
 export async function forgotPasswordApi(payload:any) {
-    return fetch('http://localhost:5000/api/auth/forgot-password', {
+    return fetch('http://localhost:5001/api/auth/forgot-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export async function forgotPasswordApi(payload:any) {
 
 // Reset Password
 export async function resetPasswordAPi( payload:any) {
-    return fetch(`http://localhost:5000/api/auth/reset-password`, {
+    return fetch(`http://localhost:5001/api/auth/reset-password`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export async function resetPasswordAPi( payload:any) {
 // Auth API functions for signup and login
 
 export async function signupApi(payload:any) {
-    return fetch('http://localhost:5000/api/auth/signup', {
+    return fetch('http://localhost:5001/api/auth/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export async function signupApi(payload:any) {
 }
 
 export async function loginApi(payload:any) {
-    return fetch('http://localhost:5000/api/auth/login', {
+    return fetch('http://localhost:5001/api/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
