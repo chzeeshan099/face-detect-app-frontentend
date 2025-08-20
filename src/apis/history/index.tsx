@@ -1,13 +1,13 @@
 'use client';
 // add User History Api
 
-export async function addUserHistoryApi(payload: any) {
-    return fetch('http://localhost:5001/api/history', {
+export async function addUserHistoryApi(FormData: any) {
+    return fetch('http://localhost:5001/api/history/createUserHistory', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(FormData),
     })
         .then(response => response.json())
         .then(data => {
@@ -33,6 +33,23 @@ export async function getUserHistoryApi(userId: string) {
         })
         .catch(error => {
             console.error('Get User History Error:', error);
+            throw error;
+        });
+}
+// get User History Api
+export async function deleteUserHistoryApi(id: string) {
+    return fetch(`http://localhost:5001/api/history/deleteHistory/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('Delete User History Error:', error);
             throw error;
         });
 }
