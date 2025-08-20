@@ -13,6 +13,7 @@ type HistoryItem = {
 
 type User = {
     id: number;
+    _id: number;
     firstName: string;
     lastName: string;
     email: string;
@@ -39,11 +40,20 @@ const AdminPanel = () => {
 
     // Delete history item (after confirmation)
     const confirmDeleteHistory = async () => {
-
-
         const response = await deleteUserHistoryApi(deleteTarget);
         console.log("Delete Response:", response);
-
+        // Get updated users
+        const updatedResponse = await getAllUsersApi() as any;
+        setUsers(updatedResponse?.users || []);
+        console.log("Updated_Users", updatedResponse?.users);
+        console.log("selectedUserselectedUser", selectedUser);
+        // Agar modal open hai to selectedUser ko bhi fresh update karo
+        if (selectedUser) {
+            const updatedUser = updatedResponse?.users.find(
+                (u: any) => u?._id === selectedUser?._id
+            );
+            setSelectedUser(updatedUser || null);
+        }
         // close modal
         setShowDeleteModal(false);
         setDeleteTarget(null);
