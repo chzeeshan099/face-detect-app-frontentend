@@ -110,55 +110,57 @@ const AdminPanel = () => {
                                     <table className="w-full mb-4 rounded-xl overflow-hidden">
                                         <thead>
                                             <tr className="bg-gradient-to-r from-purple-100 to-pink-100">
-                                                <th className="min-w-40 py-2 text-center text-purple-700">Date</th>
                                                 <th className="min-w-40 py-2 text-center text-purple-700">Image</th>
                                                 <th className="min-w-40 py-2 text-center text-purple-700">Video</th>
+                                                <th className="min-w-40 py-2 text-center text-purple-700">Date</th>
                                                 <th className="min-w-40 py-2 text-center text-purple-700">Action</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             {selectedUser?.history?.map((h) => {
-                                                const [date , time] =h?.dateTime.split(' ')
-                                                const formattedDate = date.replaceAll('/' , '-')
-                                                console.log(formattedDate , ' dattee')
-                                            return(
-                                                <tr key={h.id} className="hover:bg-purple-50">
-                                                    <td className="py-2 text-center">{formattedDate}</td>
-                                                    <td className="py-2 text-center flex justify-center items-center">
-                                                        {h.imageUrl ? (
-                                                            <img src={h.imageUrl} alt="Face Test" className="w-16 h-16 object-cover rounded-lg border border-purple-200" />
-                                                        ) : (
-                                                            <span className="text-gray-400">No Image</span>
-                                                        )}
-                                                    </td>
-                                                    <td className="py-2 text-center px-8">
-                                                        {h?.youtubeUrl ? (
-                                                            <div className="w-24 h-16">
-                                                                <iframe
-                                                                    width="100%"
-                                                                    height="100%"
-                                                                    src={`https://www.youtube.com/embed/${h?.youtubeUrl}`}
-                                                                    title="YouTube video"
-                                                                    frameBorder="0"
-                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                                    allowFullScreen
-                                                                ></iframe>
-                                                            </div>
-                                                        ) : (
-                                                            <span className="text-gray-400">No Video</span>
-                                                        )}
-                                                    </td>
-                                                    <td className="py-2 text-center">
-                                                        <button
-                                                            className="bg-red-500 text-white px-3 py-1 rounded-full text-xs shadow hover:bg-red-600 transition"
-                                                            onClick={() => handleDeleteHistory(selectedUser.id, h.id)}
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            )}
+                                                const [date, time] = h?.dateTime.split(' ')
+                                                const formattedDate = date.replaceAll('/', '-')
+                                                console.log(formattedDate, ' dattee')
+                                                return (
+                                                    <tr key={h.id} className="hover:bg-purple-50">
+                                                        <td className="py-2 text-center flex justify-center items-center">
+                                                            {h.imageUrl ? (
+                                                                <img src={h.imageUrl} alt="Face Test" className="w-16 h-16 object-cover rounded-lg border border-purple-200" />
+                                                            ) : (
+                                                                <span className="text-gray-400">No Image</span>
+                                                            )}
+                                                        </td>
+                                                        <td className="py-2 text-center px-8">
+                                                            {h?.youtubeUrl ? (
+                                                                <div className="w-24 h-16">
+                                                                    <iframe
+                                                                        width="100%"
+                                                                        height="100%"
+                                                                        src={`https://www.youtube.com/embed/${h?.youtubeUrl}`}
+                                                                        title="YouTube video"
+                                                                        frameBorder="0"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                        allowFullScreen
+                                                                    ></iframe>
+                                                                </div>
+                                                            ) : (
+                                                                <span className="text-gray-400">No Video</span>
+                                                            )}
+                                                        </td>
+                                                        <td className="py-2 text-center">{formattedDate}</td>
+
+                                                        <td className="py-2 text-center">
+                                                            <button
+                                                                className="bg-red-500 text-white px-3 py-1 rounded-full text-xs shadow hover:bg-red-600 transition"
+                                                                onClick={() => handleDeleteHistory(selectedUser.id, h.id)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            }
                                             )}
                                         </tbody>
                                     </table>
