@@ -148,12 +148,12 @@ const FaceDetect = () => {
                 <WebcamCapture onCapture={handleCapture} />
 
                 {/* File Upload */}
-                <div className="w-full mt-4">
+                {/* <div className="w-full mt-4">
                     <FileInput
                         label="Upload Image"
                         accept="image/png,image/jpeg,image/jpg,image/svg+xml,image/webp,image/avif"
                         onChange={handleFileChange} />
-                </div>
+                </div> */}
 
                 {/* Preview */}
                 {capturedImage && (
